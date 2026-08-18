@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Birthday Celebration ♡</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap');
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #fffaf8;
+    color: #4b3b3d;
+    font-family: "DM Sans", sans-serif;
+    overflow-x: hidden;
+  }
+
+  .petal {
+    position: fixed;
+    width: 7px;
+    height: 7px;
+    border-radius: 50% 50% 50% 0;
+    background: #f3cfd5;
+    opacity: .55;
+    transform: rotate(-35deg);
+    animation: float 8s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .p1 { left: 10%; top: 8%; animation-delay: 0s; }
+  .p2 { left: 83%; top: 17%; animation-delay: 2s; }
+  .p3 { left: 18%; top: 62%; animation-delay: 4s; }
+  .p4 { left: 76%; top: 72%; animation-delay: 1s; }
+  .p5 { left: 48%; top: 38%; animation-delay: 5s; }
+
+  @keyframes float {
+    0% { transform: translateY(0) rotate(-35deg); opacity: 0; }
+    15% { opacity: .55; }
+    100% { transform: translateY(90px) rotate(145deg); opacity: 0; }
+  }
+
+  .screen {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 28px 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card {
+    width: min(680px, 100%);
+    background: rgba(255,255,255,.78);
+    border: 1px solid #f0dfe1;
+    border-radius: 32px;
+    padding: 42px 28px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(117, 80, 86, .10);
+    backdrop-filter: blur(8px);
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 11px;
+    color: #b47f88;
+    margin-bottom: 18px;
+  }
+
+  h1, h2 {
+    font-family: "Playfair Display", serif;
+    font-weight: 600;
+    color: #5b4145;
+    margin: 0;
+  }
+
+  h1 { font-size: clamp(40px, 10vw, 70px); line-height: 1.05; }
+  h2 { font-size: clamp(30px, 7vw, 44px); }
+
+  .subtitle {
+    margin: 20px auto 28px;
+    max-width: 500px;
+    line-height: 1.8;
+    color: #765f62;
+  }
+
+  .heart {
+    display: inline-block;
+    color: #d99aa5;
+    animation: heartbeat 1.7s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    12% { transform: scale(1.16); }
+    24% { transform: scale(1); }
+  }
+
+  button, .map-btn {
+    border: 0;
+    text-decoration: none;
+    display: inline-block;
+    background: #d99aa5;
+    color: white;
+    padding: 14px 24px;
+    border-radius: 999px;
+    font: 600 14px "DM Sans", sans-serif;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(217,154,165,.25);
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  button:hover, .map-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(217,154,165,.32);
+  }
+
+  .hidden { display: none; }
+
+  .section {
+    padding: 78px 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-inner {
+    width: min(760px, 100%);
+    margin: auto;
+    text-align: center;
+  }
+
+  .details {
+    margin: 34px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .detail {
+    background: #fff;
+    border: 1px solid #f0dfe1;
+    border-radius: 22px;
+    padding: 22px 14px;
+  }
+
+  .detail .icon { font-size: 23px; margin-bottom: 8px; }
+  .detail strong { display: block; color: #5b4145; margin-bottom: 4px; }
+  .detail span { font-size: 14px; color: #806b6e; }
+
+  .guest-wrap {
+    margin-top: 35px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .guest {
+    background: #fff;
+    border: 1px solid #f0dfe1;
+    border-radius: 999px;
+    padding: 12px 18px;
+    color: #684e52;
+    font-size: 14px;
+  }
+
+  .guest::before { content: "♡ "; color: #d99aa5; }
+
+  .countdown {
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 560px;
+  }
+
+  .time {
+    background: #fdf0f2;
+    border-radius: 18px;
+    padding: 16px 8px;
+  }
+
+  .time b {
+    display: block;
+    font-size: 24px;
+    color: #674d51;
+  }
+
+  .time small {
+    color: #a17c82;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .note {
+    margin-top: 34px;
+    background: #fff;
+    border: 1px dashed #dfb9c0;
+    border-radius: 24px;
+    padding: 28px 22px;
+    line-height: 1.9;
+  }
+
+  .final {
+    min-height: 80vh;
+    display: grid;
+    place-items: center;
+  }
+
+  .signature {
+    margin-top: 25px;
+    color: #b47f88;
+    font-family: "Playfair Display", serif;
+    font-size: 20px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 28px 20px 45px;
+    color: #b49b9f;
+    font-size: 12px;
+  }
+
+  @media (max-width: 520px) {
+    .card { padding: 36px 20px; border-radius: 26px; }
+    .details { grid-template-columns: 1fr; }
+    .countdown { grid-template-columns: repeat(2, 1fr); }
+    .section { padding: 65px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div>
+<div class="petal p4"></div><div class="petal p5"></div>
+
+<section class="screen" id="welcome">
+  <div class="card">
+    <div class="eyebrow">a little invitation</div>
+    <h1>For you <span class="heart">♡</span></h1>
+    <p class="subtitle">
+      Technically, my birthday is on <b>23 August</b>...
+      but we can't be there because of sunday. 🥹
+      So I'm stealing you for a little birthday morning.
+    </p>
+    <button onclick="openInvite()">Open invitation ♡</button>
+  </div>
+</section>
+
+<main id="invitation" class="hidden">
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="eyebrow">you're invited</div>
+      <h2>A little birthday celebration</h2>
+      <p class="subtitle">
+        Nothing fancy or big. Just the best time & laughs with my favourite peoples.
+        I'd really love to have you there. 🤍
+      </p>
+
+      <div class="details">
+        <div class="detail">
+          <div class="icon">🎀</div>
+          <strong>Date</strong>
+          <span>21 August 2026</span>
+        </div>
+        <div class="detail">
+          <div class="icon">☀️</div>
+          <strong>Time</strong>
+          <span>10:00 AM</span>
+        </div>
+        <div class="detail">
+          <div class="icon">🍰</div>
+          <strong>Place</strong>
+          <span>Galaxy Food Planet</span>
+        </div>
+        <div class="detail">
+          <div class="icon">♡</div>
+          <strong>Occasion</strong>
+          <span>My birthday celebration</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:#fff5f6;">
+    <div class="section-inner">
+      <div class="eyebrow">the guest list</div>
+      <h2>Unplanned Us ♡</h2>
+      <p class="subtitle">The people who are officially expected to show up.</p>
+
+      <div class="guest-wrap">
+        <div class="guest">Boss😎</div>
+        <div class="guest">Kumbhkaran😴</div>
+        <div class="guest">Cutie🩷</div>
+        <div class="guest">Nagin🐍</div>
+        <div class="guest">Vlogger📸(tnu)</div>
+      </div>
+
+      <div class="note">
+        <b>Bina gift k mat dikh jaiyo😜</b><br>
+        <b>Time se aa jaiyo👉👈</b><br>
+        <b>nd, Show me the best smile u guy have😊</b><br><br>
+        <b>That's literally the entire plan.</b> 🫶🏻
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="eyebrow">until we meet</div>
+      <h2>Countdown ♡</h2>
+      <div class="countdown">
+        <div class="time"><b id="days">--</b><small>Days</small></div>
+        <div class="time"><b id="hours">--</b><small>Hours</small></div>
+        <div class="time"><b id="minutes">--</b><small>Minutes</small></div>
+        <div class="time"><b id="seconds">--</b><small>Seconds</small></div>
+      </div>
+
+      <div class="note">
+        <span style="font-size:28px;">🎂</span><br><br>
+        My actual birthday is <b>23 August</b>,<br>
+        but the celebration starts a little early.
+        <div class="signature">See you on the 21st ♡</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section final" style="background:#fff5f6;">
+    <div class="section-inner">
+      <div class="eyebrow">one last thing</div>
+      <h2>Will you be there?</h2>
+      <p class="subtitle">
+        I hope the answer is yes. 🤍
+      </p>
+      <button onclick="confirmAttendance()">I'll be there ♡</button>
+      <div id="confirmed" class="hidden" style="margin-top:22px; color:#a66e78; font-weight:600;">
+        Yay! See you there 🥹🎀
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    21.08.26 · 10:00 AM · Galaxy Food Planet<br>
+    made with a little love ♡
+  </footer>
+</main>
+
+<script>
+  function openInvite() {
+    document.getElementById("welcome").style.display = "none";
+    document.getElementById("invitation").classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function confirmAttendance() {
+    document.getElementById("confirmed").classList.remove("hidden");
+  }
+
+  const partyTime = new Date("2026-08-21T10:00:00");
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = partyTime - now;
+
+    if (diff <= 0) {
+      document.getElementById("days").textContent = "00";
+      document.getElementById("hours").textContent = "00";
+      document.getElementById("minutes").textContent = "00";
+      document.getElementById("seconds").textContent = "00";
+      return;
+    }
+
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff / 3600000) % 24);
+    const minutes = Math.floor((diff / 60000) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("days").textContent = String(days).padStart(2, "0");
+    document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+    document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+    document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>
